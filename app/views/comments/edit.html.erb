@@ -1,0 +1,7 @@
+<h2>コメント編集</h2>
+<%= form_for(@comment, url: item_comment_path(@comment)) do |f| %>
+    <%= f.label :content %>
+    <%= f.text_field :content, :size => 140 %> 
+    <%= f.submit "編集する" %>
+  <% end %>
+  

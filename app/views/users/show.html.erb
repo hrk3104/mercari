@@ -1,0 +1,34 @@
+
+<p>名前 : <%= @user.name %></p>
+<% if @user.image.attached? %>
+     <%= image_tag  @user.image, size: '250x200'%>
+<% end %>
+<p>メールアドレス : <%= @user.email %></p>
+<p>プロフィール : <%= @user.profile %></p>
+<% if current_user.id == @user.id %>
+  <%= link_to "編集する", edit_user_registration_path %>
+<% end %>
+
+<h2>ユーザーの投稿一覧</h2>
+<% @user.items.each do |t| %>
+  <%= t.user.name %>
+  <%= t.title %>
+  <%= image_tag t.image_url, size: "250x200" if t.image? %>
+  <%= t.price %>
+  <%= t.about %>
+  <%= t.created_at %>
+  <%= t.user.email %> 
+<% end %>
+
+<h2>ユーザーがいいねした投稿一覧</h2>
+<% @user.liked_items.each do |t| %>
+  <%= t.user.name %>
+  <%= t.title %>
+  <%= image_tag t.image_url, size: "250x200" if t.image? %>
+  <%= t.price %>
+  <%= t.about %>
+  <%= t.created_at %>
+  <%= t.user.email %> 
+<% end %>
+
+<%= link_to "投稿一覧に戻る", items_path %>

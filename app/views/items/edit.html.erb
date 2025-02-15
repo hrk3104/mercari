@@ -1,0 +1,54 @@
+<%= form_for @item do |f| %>
+
+    <%= f.label :値段 %>
+    <%= f.number_field :price, :size => 10 %>
+
+    <%= f.label :商品説明  %>
+    <%= f.text_area :about, :size => "30x2" %>
+
+    <%= f.label :商品タイトル%>
+    <%= f.text_field :title, :size => 30 %>
+
+
+
+    <%= form_with(model: @item, local: true, data: { controller: "images"}) do |f| %>
+
+  <%= render 'layouts/errors', obj: @item %>
+
+  <div class="mb-3">
+    <%= f.label :title, "タイトル", class: "font-semibold block p-1" %>
+    <%= f.text_field :title, autofocus: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :images, "画像", class: "font-semibold block p-1" %>
+    <%= f.file_field :images, multiple: true, accept: "image/jpeg,image/gif,image/png", data: { images_target: "select", action: "change->images#selectImages" } %>
+  </div>
+  <div data-images-target="preview">
+    <% if @item.images.attached? %>
+      <% @item.images.each do |image| %>
+        <div class="image-box inline-flex mx-1 mb-5" data-controller="images" data-images-target= "image_box">
+          <div class="text-center">
+            <%= image_tag image, width: "100" %>
+            <a class="link cursor-pointer" data-action="click->images#deleteImage">削除</a>
+            <%= f.hidden_field :images, name: "post[images][]", style: "display: none", value: "#{image.blob.id}" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.submit  "投稿する", class: "btn btn-sky" %>
+  </div>
+<% end %>
+
+<%= form_for(@comment, url: item_comment_path(@comment)) do |f| %>
+  <%= f.label :content %>
+  <%= f.text_field :content, :size => 140 %> 
+  <%= f.submit "編集する" %>
+<% end %>
+
+  
+    <%= f.submit "編集する" %>
+  <% end %>

@@ -65,3 +65,12 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+gem 'sass-rails'
+gem 'devise'
+gem 'ransack'
+gem 'carrierwave' , '~> 1.3' ,  '>= 1.3.1'
+gem 'cloudinary'
+gem 'dotenv-rails'
+gem 'active_storage_validations'
+gem "refile", require: "refile/rails", github: 'manfe/refile'
+gem "refile-mini_magick"
