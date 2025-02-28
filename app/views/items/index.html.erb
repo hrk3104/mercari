@@ -7,6 +7,13 @@
 
 <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
 
+
+<%= form_tag({controller:"items",action:"index"}, method: :get) do %>
+    <%= text_field_tag :tag %>
+    <%= submit_tag 'タグを追加' %>
+<% end %>
+
+
 <%= search_form_for @q  do |f| %>
    <%= f.label :title, '商品名' %>
   <%= f.search_field :title_cont %>
@@ -27,8 +34,6 @@
 
     <% if user_signed_in? %>
       <% if current_user.id == t.user_id %>
-        <%= link_to "編集する", edit_item_path(t.id) %>
-        <%= link_to "削除する", item_path(t.id), method: :delete %>
       <% elsif current_user.admin? %>
         <%= link_to "管理者用編集", edit_post_path(t.id) %>
         <%= link_to "管理者用削除", item_path(t.id), method: :delete %>
@@ -42,15 +47,24 @@
       <%= t.about %>
       <%= t.created_at %>
  
-    <% if t.images.attached? %>
-      <% t.images.each do |image| %>
-        <div class="mb-2 inline-flex">
-          <%= image_tag(image, width:100, class: "") %>
-        </div>
-      <% end %>
-    <% end %>
-
   
+      <div class="my-8">
+      <div id="item-<%= t.id %>" class="mb-3">
+        <p class="font-bold">タイトル：<%= t.title %></p>
+        <% if t.images.attached? %>
+          <% t.images.each do |image| %>
+            <div class="mb-2 inline-flex">
+              <%= image_tag(image, width:100, class: "") %>
+              
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    
+   
+
+    
       <%= link_to t.user.name, user_path(t.user.id) %>
       <%= t.user.email %> 
       <%= link_to "詳細へ", item_path(t.id) %>
@@ -58,7 +72,8 @@
       <%= link_to "編集する", edit_item_path(t.id) %>
       <%= link_to "削除する", item_path(t.id), method: :delete %>
     <% end %> 
-     
+    
+
      <% if user_signed_in? %>
         <% if current_user.already_liked?(t) %>
             <%= link_to item_like_path(id: t.id, item_id: t.id), data: { turbo_method: :delete } do %>
@@ -78,7 +93,8 @@
 
 
 <% if user_signed_in? %>
-<% if current_user.admin? %>
-  <%= link_to "秘密のページへ", users_path %>
+    <% if current_user.admin? %>
+      <%= link_to "秘密のページへ", users_path %>
+    <% end %>
 <% end %>
-<% end %>
+

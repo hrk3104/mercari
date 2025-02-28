@@ -24,6 +24,11 @@
 <%= link_to "編集する", edit_item_path(@item.id) %>
 
 
+<% @item.tags.each do |tag| %>
+    <span><%= tag.name %></span>
+<% end %>
+
+
 <div class="comment-wrapper">
   <p>コメント一覧</p>
   <% @comments.each do |c| %>

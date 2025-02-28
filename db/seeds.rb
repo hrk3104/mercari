@@ -13,4 +13,12 @@ User.create!(name:  "haruka",
              password:  "Haruka3738",
              password_confirmation: "Haruka3738",
              admin: true)
+
+Tag.create([
+                { name: '服' },
+                { name: '本' },
+                { name: 'コスメ' },
+                { name: 'バッグ' },
+                { name: 'ゲーム機' }
+              ])
     

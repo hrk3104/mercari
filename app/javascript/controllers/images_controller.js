@@ -1,25 +1,25 @@
-import { Controller } from "@hotwired/stimulus"
 
+import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="images"
 export default class extends Controller {
-/* ①静的プロパティを定義（data-{controller}-target で指定したターゲット名） */
+  
   static targets = ["select", "preview", "image_box"]
 
-  /* ②画像選択時の処理 */
+  
   selectImages(){
-    const files = this.selectTargets[0].files // file_fieldで取得した画像ファイル
+    const files = this.selectTargets[0].files 
     for(const file of files){
-      this.uploadImage(file) // 選択した画像ファイルのアップロード
+      this.uploadImage(file) 
     }
-    this.selectTarget.value = "" // 選択ファイルのリセット
+    this.selectTarget.value = "" 
   }
 
-  /* ③画像アップロード */
+
   uploadImage(file){
     const csrfToken = document.getElementsByName('csrf-token')[0].content // CSRFトークンを取得
     const formData = new FormData()
-    formData.append("image", file) // formDataオブジェクトに画像ファイルをセット
+    formData.append("image", file) 
     const options = {
       method: 'POST',
       headers: {
@@ -27,7 +27,7 @@ export default class extends Controller {
       },
       body: formData
     }
-     /* fetchで画像ファイルをPostコントローラー(upload_imageアクション)に送信 */
+    
     fetch("/items/upload_image", options) 
       .then(response => response.json())
       .then(data => { // Postコントローラーからのレスポンス(blobデータ)
@@ -35,12 +35,12 @@ export default class extends Controller {
       })
       .catch((error) => {
         console.error(error)
- })
+      })
   }
 
-  /* ④画像プレビュー */
+ 
   previewImage(file, id){
-    const preview = this.previewTarget // プレビュー表示用の<div>要素
+    const preview = this.previewTarget // 
     const fileReader = new FileReader()
     const setAttr = (element, obj)=>{ // 属性設定用の関数
       Object.keys(obj).forEach((key)=>{

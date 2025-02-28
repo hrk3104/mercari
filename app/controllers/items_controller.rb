@@ -6,6 +6,9 @@ class ItemsController < ApplicationController
         @q = Item.ransack(params[:q]) 
         @items= @q.result
         @users = User.all
+        if params[:tag]
+          Tag.create(name: params[:tag])
+        end
     end
 
     def new
@@ -44,22 +47,27 @@ class ItemsController < ApplicationController
         end
       end
 
-      def upload_image
-        @image_blob = create_blob(params[:image])
-        render json: @image_blob
-      end
-
 
       def destroy
         item = Item.find(params[:id])
         item.destroy
         redirect_to action: :index
       end
+      
+
+      def upload_image
+        @image_blob = create_blob(params[:image])
+      end
 
 
       private
       def set_item
         @item = Item.find(params[:id])
+      end
+
+
+      def item_params
+        params.require(:item).permit(:price, :about, :title, tag_ids: []).merge(images: uploaded_images)
       end
 
       def uploaded_images
@@ -72,10 +80,6 @@ class ItemsController < ApplicationController
           filename: file.original_filename,
           content_type: file.content_type
         )
-      end
-
-      def item_params
-        params.require(:item).permit(:price, :about, :title, :images).merge(images: uploaded_images)
       end
 
 end

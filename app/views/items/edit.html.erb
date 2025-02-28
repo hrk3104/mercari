@@ -13,7 +13,7 @@
 
     <%= form_with(model: @item, local: true, data: { controller: "images"}) do |f| %>
 
-  <%= render 'layouts/errors', obj: @item %>
+ 
 
   <div class="mb-3">
     <%= f.label :title, "タイトル", class: "font-semibold block p-1" %>
@@ -31,7 +31,7 @@
           <div class="text-center">
             <%= image_tag image, width: "100" %>
             <a class="link cursor-pointer" data-action="click->images#deleteImage">削除</a>
-            <%= f.hidden_field :images, name: "post[images][]", style: "display: none", value: "#{image.blob.id}" %>
+            <%= f.hidden_field :images, name: "item[images][]", style: "display: none", value: "#{image.blob.id}" %>
           </div>
         </div>
       <% end %>
